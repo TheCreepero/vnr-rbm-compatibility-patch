@@ -1,0 +1,4 @@
+*.dds binary
+*.png binary
+*.gui -text
+*.gfx -text

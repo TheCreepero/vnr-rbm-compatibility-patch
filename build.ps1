@@ -135,7 +135,7 @@ function Invoke-Validation {
 
     $clausewitzFiles = @(Get-ChildItem -Path $RepoDir -Recurse -File | Where-Object {
         ($_.Extension -eq '.txt' -or $_.Extension -eq '.gui' -or $_.Extension -eq '.gfx') -and
-        $_.FullName -notmatch '[\\/](\.git|\.github|\.vscode|tests|wiki)[\\/]'
+        $_.FullName -notmatch '[\\/](\.git|\.github|\.vscode|tests|tools|wiki)[\\/]'
     })
 
     $checkedCount = 0
@@ -313,7 +313,7 @@ if ($Package) {
     New-Item -ItemType Directory -Path $tempStage -Force | Out-Null
 
     try {
-        $excludeDirs = @('.git', '.github', '.vscode', '.agents', '.agent', 'tests', 'wiki', 'assets', 'artifacts', 'scratch', 'Files', 'docs')
+        $excludeDirs = @('.git', '.github', '.vscode', '.agents', '.agent', 'tests', 'tools', 'wiki', 'assets', 'artifacts', 'scratch', 'Files', 'docs')
         $excludeFiles = @('.gitattributes', '.gitignore', 'build.ps1', 'build.bat', 'build_and_deploy.bat', '.steam_username')
 
         $items = Get-ChildItem -Path $RepoDir
@@ -323,7 +323,7 @@ if ($Package) {
                 Copy-Item -Path $item.FullName -Destination (Join-Path $tempStage $item.Name) -Recurse -Force
             } else {
                 if ($excludeFiles -contains $item.Name) { continue }
-                if ($item.Extension -eq '.zip') { continue }
+                if ($item.Extension -eq '.zip' -or $item.Extension -eq '.md') { continue }
                 Copy-Item -Path $item.FullName -Destination (Join-Path $tempStage $item.Name) -Force
             }
         }
@@ -371,7 +371,7 @@ if ($PublishSteam) {
     New-Item -ItemType Directory -Path $stageDir -Force | Out-Null
 
     try {
-        $excludeDirs = @('.git', '.github', '.vscode', '.agents', '.agent', 'tests', 'wiki', 'assets', 'artifacts', 'scratch', 'Files', 'docs')
+        $excludeDirs = @('.git', '.github', '.vscode', '.agents', '.agent', 'tests', 'tools', 'wiki', 'assets', 'artifacts', 'scratch', 'Files', 'docs')
         $excludeFiles = @('.gitattributes', '.gitignore', 'build.ps1', 'build.bat', 'build_and_deploy.bat', '.steam_username')
 
         $items = Get-ChildItem -Path $RepoDir
@@ -381,7 +381,7 @@ if ($PublishSteam) {
                 Copy-Item -Path $item.FullName -Destination (Join-Path $stageDir $item.Name) -Recurse -Force
             } else {
                 if ($excludeFiles -contains $item.Name) { continue }
-                if ($item.Extension -eq '.zip') { continue }
+                if ($item.Extension -eq '.zip' -or $item.Extension -eq '.md') { continue }
                 Copy-Item -Path $item.FullName -Destination (Join-Path $stageDir $item.Name) -Force
             }
         }
@@ -441,7 +441,7 @@ if (-not (Test-Path $targetFolder)) {
     New-Item -ItemType Directory -Path $targetFolder -Force | Out-Null
 }
 
-$excludeDirs = @('.git', '.github', '.vscode', '.agents', '.agent', 'tests', 'wiki', 'assets', 'artifacts', 'scratch', 'Files', 'docs')
+$excludeDirs = @('.git', '.github', '.vscode', '.agents', '.agent', 'tests', 'tools', 'wiki', 'assets', 'artifacts', 'scratch', 'Files', 'docs')
 $excludeFiles = @('.gitattributes', '.gitignore', 'build.ps1', 'build.bat', 'build_and_deploy.bat', '.steam_username')
 
 $items = Get-ChildItem -Path $RepoDir
@@ -451,7 +451,7 @@ foreach ($item in $items) {
         Copy-Item -Path $item.FullName -Destination (Join-Path $targetFolder $item.Name) -Recurse -Force
     } else {
         if ($excludeFiles -contains $item.Name) { continue }
-        if ($item.Extension -eq '.zip') { continue }
+        if ($item.Extension -eq '.zip' -or $item.Extension -eq '.md') { continue }
         Copy-Item -Path $item.FullName -Destination (Join-Path $targetFolder $item.Name) -Force
     }
 }

@@ -25,6 +25,8 @@
 - Use `.\build.ps1 -DevLink` for zero-copy live editing directly from the repository.
 - Use `.\build.ps1 -Package` to verify that release packaging strictly excludes `.git`, `.github`, `.vscode`, `tests`, `wiki`, and developer scripts.
 
+- Files under `gfx/` and `interface/` are copies from the upstream mods, listed in `tools/upstream-manifest.json`. Never hand-edit them or `interface/zzz_vnr_rbm_compat.gfx`; change the manifest and run `.\tools\Sync-Upstream.ps1`.
+
 ## 4. Git & Commit Guidelines
 - Do not commit to the Git repository unless explicitly instructed by the user. The user prefers to review changes before committing.
 - **Git Verification Invariant**: After completing changes, always verify `git status` to ensure the working tree reflects expected changes.

@@ -1,6 +1,22 @@
 # VNR - RBM Compatibility Patch
 
-Compatibility patch resolving graphical, tech tree, and interface conflicts between **Vanilla Navy Rework (VNR)** and **RBM's GFX Overhaul** for Hearts of Iron IV.
+Compatibility patch resolving graphical and interface conflicts between **Vanilla Navy Rework (VNR)** and **RBM's GFX Overhaul** for Hearts of Iron IV.
+
+## What It Fixes
+
+Both mods replace the same naval textures, sprite definitions and GUI files, so the result depends on playset order. This patch loads after both and re-asserts one consistent set. Where a choice is forced, VNR wins.
+
+- **Ship role icons**: VNR's 86-frame role strip (`gfx/army_icons/naval_equipment_role_icons*.dds`) instead of RBM's 8-frame vanilla copy.
+- **Ship class sprites**: every sprite name both mods define is re-declared with VNR's definition in `interface/zzz_vnr_rbm_compat.gfx`.
+- **Naval combat hull icons**: VNR's `gfx/interface/navalcombat/ships/*.dds`.
+- **Fleet view and ship designer**: VNR's `naviesview.gui` and `equipmentdesignerview.gui`.
+- **On-map counters**: VNR's carrier icon; RBM's heavy cruiser, light cruiser and super-heavy battleship icons, which VNR leaves at vanilla.
+
+These files are copies from the two mods. `tools/upstream-manifest.json` lists each one and its source; refresh them after either mod updates:
+
+```powershell
+.\tools\Sync-Upstream.ps1
+```
 
 ## Target Mods
 - [RBM's GFX Overhaul](https://steamcommunity.com/sharedfiles/filedetails/?id=3496134789) (Workshop ID: `3496134789`)
@@ -31,6 +47,7 @@ C:\dev\vnr-rbm-compatibility-patch/
 |-- common/                         # Game content and scripts (technologies, units, modules)
 |-- interface/                      # GUI windows and GFX sprite definitions (.gui, .gfx)
 |-- gfx/                            # Custom graphics, icons, and textures (.dds, .png)
+|-- tools/                          # Upstream manifest and sync script (not packaged)
 |-- tests/                          # Automated Pester test suites
 \-- wiki/                           # GitHub documentation wiki
 ```

@@ -1,0 +1,58 @@
+{
+  "mods": {
+    "vnr": { "id": "2993766165", "name": "Vanilla Navy Rework" },
+    "rbm": { "id": "3496134789", "name": "RBM's GFX Overhaul" }
+  },
+  "generatedGfx": "interface/zzz_vnr_rbm_compat.gfx",
+  "alwaysRedeclare": [
+    "GFX_naval_equipment_role_icons",
+    "GFX_naval_equipment_role_icons_selected"
+  ],
+  "files": [
+    { "source": "vnr", "path": "gfx/army_icons/naval_equipment_role_icons.dds" },
+    { "source": "vnr", "path": "gfx/army_icons/naval_equipment_role_icons_selected.dds" },
+
+    { "source": "vnr", "path": "gfx/interface/counters/ships_small/onmap_carrier.dds" },
+    { "source": "vnr", "path": "gfx/interface/counters/ships_small/onmap_carrier_inverted.dds" },
+    { "source": "rbm", "path": "gfx/interface/counters/ships_small/onmap_heavy_cruiser.dds" },
+    { "source": "rbm", "path": "gfx/interface/counters/ships_small/onmap_heavy_cruiser_inverted.dds" },
+    { "source": "rbm", "path": "gfx/interface/counters/ships_small/onmap_light_cruiser.dds" },
+    { "source": "rbm", "path": "gfx/interface/counters/ships_small/onmap_light_cruiser_inverted.dds" },
+    { "source": "rbm", "path": "gfx/interface/counters/ships_small/onmap_sh_battleship.dds" },
+    { "source": "rbm", "path": "gfx/interface/counters/ships_small/onmap_sh_battleship_inverted.dds" },
+
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/battlecruiser_I.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/battlecruiser_II.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/battlecruiser_III.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/battlecruiser_IV.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/battleship.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/battleship_I.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/battleship_II.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/battleship_III.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/battleship_IV.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/carrier.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/carrier_I.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/carrier_II.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/carrier_III.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/carrier_IV.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/destroyer.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/destroyer_I.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/destroyer_II.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/destroyer_III.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/destroyer_IV.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/heavy_cruiser_I.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/heavy_cruiser_II.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/heavy_cruiser_III.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/heavy_cruiser_IV.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/sh_battleship.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/sh_battleship_I.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/submarine.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/submarine_I.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/submarine_II.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/submarine_III.dds" },
+    { "source": "vnr", "path": "gfx/interface/navalcombat/ships/submarine_IV.dds" },
+
+    { "source": "vnr", "path": "interface/equipmentdesignerview.gui" },
+    { "source": "vnr", "path": "interface/naviesview.gui" }
+  ]
+}
