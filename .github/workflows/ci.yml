@@ -1,0 +1,73 @@
+name: CI - Validate and Test
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  validate-and-test:
+    name: Invariant Validation, Unit Tests & Packaging
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fast Engine & Syntax Pre-Flight Check
+        shell: pwsh
+        run: |
+          ./build.ps1 -ValidateOnly
+
+      - name: Execute Pester Test Suite
+        shell: pwsh
+        run: |
+          ./tests/Run-Tests.ps1 -CI -OutputFile tests/test-results.xml
+
+      - name: Test Release Packaging
+        shell: pwsh
+        run: |
+          ./build.ps1 -Package
+
+      - name: Verify Clean Package Staging Exclusions
+        shell: pwsh
+        run: |
+          $zipPath = "artifacts/vnr-rbm-compatibility-patch.zip"
+          if (-not (Test-Path $zipPath)) {
+            $zipPath = "vnr-rbm-compatibility-patch.zip"
+          }
+          if (-not (Test-Path $zipPath)) {
+            Write-Error "Package archive 'vnr-rbm-compatibility-patch.zip' was not generated!"
+            exit 1
+          }
+
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          $zip = [System.IO.Compression.ZipFile]::OpenRead((Resolve-Path $zipPath).Path)
+          $forbiddenPatterns = @('^tests/', '^\.git/', '^\.github/', '^\.vscode/', '\.md$', '\.ps1$', '\.bat$')
+          $violations = @()
+
+          foreach ($entry in $zip.Entries) {
+            foreach ($pat in $forbiddenPatterns) {
+              if ($entry.FullName -match $pat) {
+                $violations += "$($entry.FullName) (matches forbidden pattern '$pat')"
+              }
+            }
+          }
+          $zip.Dispose()
+
+          if ($violations.Count -gt 0) {
+            Write-Error "Release package contains forbidden dev files:`n$($violations -join "`n")"
+            exit 1
+          }
+
+          Write-Host "[OK] Verified: vnr-rbm-compatibility-patch.zip is strictly clean of tests, dev scripts, and git artifacts." -ForegroundColor Green
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: tests/test-results.xml
+          retention-days: 14
