@@ -44,7 +44,6 @@ C:\dev\vnr-rbm-compatibility-patch/
 |-- build.ps1                       # Core build and lifecycle engine
 |-- assets/                         # Raw graphics and master art assets
 |-- artifacts/                      # Packaged release archives (git-ignored)
-|-- common/                         # Game content and scripts (technologies, units, modules)
 |-- interface/                      # GUI windows and GFX sprite definitions (.gui, .gfx)
 |-- gfx/                            # Custom graphics, icons, and textures (.dds, .png)
 |-- tools/                          # Upstream manifest and sync script (not packaged)

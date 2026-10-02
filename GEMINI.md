@@ -7,7 +7,7 @@
   - **VNR RT56 Compatch** (Steam ID: `2993772731`)
 - This project follows a unified single-root mod layout:
   - **Workspace & Git root**: `C:\dev\vnr-rbm-compatibility-patch` (Git repository root containing `.git/`)
-  - All mod descriptors (`descriptor.mod`), build tools (`build.ps1`), content (`common/`, `interface/`, `gfx/`), tests (`tests/`), and agent configurations (`GEMINI.md`) reside at the project root.
+  - All mod descriptors (`descriptor.mod`), build tools (`build.ps1`), content (`interface/`, `gfx/`), tests (`tests/`), and agent configurations (`GEMINI.md`) reside at the project root.
   - Release archives (`artifacts/`) and scratch scripts (`scratch/`) are git-ignored.
 
 ## 2. Clausewitz File Format & Syntax Invariants
