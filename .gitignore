@@ -5,6 +5,7 @@
 artifacts/
 scratch/
 *.mod
+!descriptor.mod
 
 # OS and Editor files
 .DS_Store

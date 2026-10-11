@@ -109,6 +109,35 @@ function New-LauncherModContent {
     return ($lines -join "`r`n")
 }
 
+function Copy-ModContent {
+    param(
+        [string]$Source,
+        [string]$Destination
+    )
+
+    $excludeDirs = @('.git', '.github', '.vscode', '.agents', '.agent', '.claude', 'tests', 'tools', 'wiki', 'assets', 'artifacts', 'scratch', 'Files', 'docs')
+    $excludeFiles = @('.gitattributes', '.gitignore', 'build.ps1', 'build.bat', 'build_and_deploy.bat', '.steam_username')
+
+    foreach ($item in (Get-ChildItem -Path $Source)) {
+        if ($item.PSIsContainer) {
+            if ($excludeDirs -contains $item.Name) { continue }
+            # Copy into the parent: targeting an existing <Destination>\<name> would nest a second <name> inside it.
+            Copy-Item -Path $item.FullName -Destination $Destination -Recurse -Force
+        } else {
+            if ($excludeFiles -contains $item.Name) { continue }
+            if ($item.Extension -eq '.zip' -or $item.Extension -eq '.md') { continue }
+            if ($item.Extension -eq '.mod' -and $item.Name -ne 'descriptor.mod') { continue }
+            Copy-Item -Path $item.FullName -Destination (Join-Path $Destination $item.Name) -Force
+        }
+    }
+
+    Get-ChildItem -Path $Destination -Recurse -Force -File -Filter '.gitkeep' | Remove-Item -Force
+    Get-ChildItem -Path $Destination -Recurse -Force -Directory |
+        Sort-Object { $_.FullName.Length } -Descending |
+        Where-Object { -not (Get-ChildItem -LiteralPath $_.FullName -Force) } |
+        Remove-Item -Force
+}
+
 function Invoke-Validation {
     Write-Step "Validating mod syntax, descriptor, and structure..."
     $hasErrors = $false
@@ -313,20 +342,7 @@ if ($Package) {
     New-Item -ItemType Directory -Path $tempStage -Force | Out-Null
 
     try {
-        $excludeDirs = @('.git', '.github', '.vscode', '.agents', '.agent', 'tests', 'tools', 'wiki', 'assets', 'artifacts', 'scratch', 'Files', 'docs')
-        $excludeFiles = @('.gitattributes', '.gitignore', 'build.ps1', 'build.bat', 'build_and_deploy.bat', '.steam_username')
-
-        $items = Get-ChildItem -Path $RepoDir
-        foreach ($item in $items) {
-            if ($item.PSIsContainer) {
-                if ($excludeDirs -contains $item.Name) { continue }
-                Copy-Item -Path $item.FullName -Destination (Join-Path $tempStage $item.Name) -Recurse -Force
-            } else {
-                if ($excludeFiles -contains $item.Name) { continue }
-                if ($item.Extension -eq '.zip' -or $item.Extension -eq '.md') { continue }
-                Copy-Item -Path $item.FullName -Destination (Join-Path $tempStage $item.Name) -Force
-            }
-        }
+        Copy-ModContent -Source $RepoDir -Destination $tempStage
 
         Add-Type -AssemblyName System.IO.Compression.FileSystem
         [System.IO.Compression.ZipFile]::CreateFromDirectory($tempStage, $zipTarget)
@@ -357,7 +373,7 @@ if ($PublishSteam) {
 
     $userFile = Join-Path $RepoDir ".steam_username"
     if (-not $SteamUser -and (Test-Path $userFile)) {
-        $SteamUser = (Get-Content $userFile -Raw).Trim()
+        $SteamUser = "$(Get-Content $userFile -Raw)".Trim()
     }
 
     if (-not $SteamUser -and -not $DryRun) {
@@ -368,23 +384,11 @@ if ($PublishSteam) {
     }
 
     $stageDir = Join-Path ([System.IO.Path]::GetTempPath()) "steam_stage_$([System.Guid]::NewGuid().ToString('N'))"
-    New-Item -ItemType Directory -Path $stageDir -Force | Out-Null
+    $contentDir = Join-Path $stageDir "content"
+    New-Item -ItemType Directory -Path $contentDir -Force | Out-Null
 
     try {
-        $excludeDirs = @('.git', '.github', '.vscode', '.agents', '.agent', 'tests', 'tools', 'wiki', 'assets', 'artifacts', 'scratch', 'Files', 'docs')
-        $excludeFiles = @('.gitattributes', '.gitignore', 'build.ps1', 'build.bat', 'build_and_deploy.bat', '.steam_username')
-
-        $items = Get-ChildItem -Path $RepoDir
-        foreach ($item in $items) {
-            if ($item.PSIsContainer) {
-                if ($excludeDirs -contains $item.Name) { continue }
-                Copy-Item -Path $item.FullName -Destination (Join-Path $stageDir $item.Name) -Recurse -Force
-            } else {
-                if ($excludeFiles -contains $item.Name) { continue }
-                if ($item.Extension -eq '.zip' -or $item.Extension -eq '.md') { continue }
-                Copy-Item -Path $item.FullName -Destination (Join-Path $stageDir $item.Name) -Force
-            }
-        }
+        Copy-ModContent -Source $RepoDir -Destination $contentDir
 
         $vdfPath = Join-Path $stageDir "workshop_build.vdf"
         $vdfLines = @(
@@ -392,8 +396,8 @@ if ($PublishSteam) {
             '{',
             '    "appid"             "394360"',
             ('    "publishedfileid"   "' + $meta.RemoteFileId + '"'),
-            ('    "contentfolder"     "' + ($stageDir -replace '\\', '/') + '"'),
-            ('    "previewfile"       "' + ((Join-Path $stageDir 'thumbnail.png') -replace '\\', '/') + '"'),
+            ('    "contentfolder"     "' + ($contentDir -replace '\\', '/') + '"'),
+            ('    "previewfile"       "' + ((Join-Path $contentDir 'thumbnail.png') -replace '\\', '/') + '"'),
             '    "visibility"        "0"',
             ('    "title"             "' + $meta.Name + '"'),
             ('    "changenote"        "' + $ChangeNote + '"'),
@@ -402,7 +406,7 @@ if ($PublishSteam) {
         $vdfContent = $vdfLines -join "`r`n"
         [System.IO.File]::WriteAllText($vdfPath, $vdfContent, [System.Text.UTF8Encoding]::new($false))
 
-        Write-Info "Staged content at: $stageDir"
+        Write-Info "Staged content at: $contentDir"
         Write-Info "VDF Path: $vdfPath"
 
         if ($DryRun) {
@@ -441,20 +445,7 @@ if (-not (Test-Path $targetFolder)) {
     New-Item -ItemType Directory -Path $targetFolder -Force | Out-Null
 }
 
-$excludeDirs = @('.git', '.github', '.vscode', '.agents', '.agent', 'tests', 'tools', 'wiki', 'assets', 'artifacts', 'scratch', 'Files', 'docs')
-$excludeFiles = @('.gitattributes', '.gitignore', 'build.ps1', 'build.bat', 'build_and_deploy.bat', '.steam_username')
-
-$items = Get-ChildItem -Path $RepoDir
-foreach ($item in $items) {
-    if ($item.PSIsContainer) {
-        if ($excludeDirs -contains $item.Name) { continue }
-        Copy-Item -Path $item.FullName -Destination (Join-Path $targetFolder $item.Name) -Recurse -Force
-    } else {
-        if ($excludeFiles -contains $item.Name) { continue }
-        if ($item.Extension -eq '.zip' -or $item.Extension -eq '.md') { continue }
-        Copy-Item -Path $item.FullName -Destination (Join-Path $targetFolder $item.Name) -Force
-    }
-}
+Copy-ModContent -Source $RepoDir -Destination $targetFolder
 
 $launcherModContent = New-LauncherModContent -DescriptorPath $DescriptorPath -TargetModPath $targetFolder
 $targetModFile = Join-Path $ModDir "$ModFolderName.mod"
