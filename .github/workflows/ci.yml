@@ -9,60 +9,35 @@ on:
 
 jobs:
   validate-and-test:
-    name: Invariant Validation, Unit Tests & Packaging
+    name: Validation, Tests and Packaging
     runs-on: windows-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Fast Engine & Syntax Pre-Flight Check
-        shell: pwsh
-        run: |
-          ./build.ps1 -ValidateOnly
+      - name: Set up Python for the tests
+        if: ${{ hashFiles('tests/requirements.txt') != '' }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
-      - name: Execute Pester Test Suite
-        shell: pwsh
-        run: |
-          ./tests/Run-Tests.ps1 -CI -OutputFile tests/test-results.xml
+      - name: Install the Python packages of the tests
+        if: ${{ hashFiles('tests/requirements.txt') != '' }}
+        shell: powershell
+        run: python -m pip install --quiet -r tests/requirements.txt
 
-      - name: Test Release Packaging
-        shell: pwsh
-        run: |
-          ./build.ps1 -Package
+      - name: Validate the files that ship
+        shell: powershell
+        run: ./build.ps1 -ValidateOnly
 
-      - name: Verify Clean Package Staging Exclusions
-        shell: pwsh
-        run: |
-          $zipPath = "artifacts/vnr-rbm-compatibility-patch.zip"
-          if (-not (Test-Path $zipPath)) {
-            $zipPath = "vnr-rbm-compatibility-patch.zip"
-          }
-          if (-not (Test-Path $zipPath)) {
-            Write-Error "Package archive 'vnr-rbm-compatibility-patch.zip' was not generated!"
-            exit 1
-          }
+      - name: Run the Pester tests
+        shell: powershell
+        run: ./tests/Run-Tests.ps1 -CI -OutputFile tests/test-results.xml
 
-          Add-Type -AssemblyName System.IO.Compression.FileSystem
-          $zip = [System.IO.Compression.ZipFile]::OpenRead((Resolve-Path $zipPath).Path)
-          $forbiddenPatterns = @('^tests/', '^\.git/', '^\.github/', '^\.vscode/', '\.md$', '\.ps1$', '\.bat$')
-          $violations = @()
-
-          foreach ($entry in $zip.Entries) {
-            foreach ($pat in $forbiddenPatterns) {
-              if ($entry.FullName -match $pat) {
-                $violations += "$($entry.FullName) (matches forbidden pattern '$pat')"
-              }
-            }
-          }
-          $zip.Dispose()
-
-          if ($violations.Count -gt 0) {
-            Write-Error "Release package contains forbidden dev files:`n$($violations -join "`n")"
-            exit 1
-          }
-
-          Write-Host "[OK] Verified: vnr-rbm-compatibility-patch.zip is strictly clean of tests, dev scripts, and git artifacts." -ForegroundColor Green
+      - name: Package and check what ships
+        shell: powershell
+        run: ./build.ps1 -Package -NoValidate
 
       - name: Upload Test Results
         if: always()

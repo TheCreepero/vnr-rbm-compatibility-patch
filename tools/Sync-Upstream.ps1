@@ -92,3 +92,6 @@ if (-not (Test-Path -LiteralPath $gfxDir)) {
 }
 [System.IO.File]::WriteAllText($gfxTarget, ($out -join "`r`n"), [System.Text.UTF8Encoding]::new($false))
 Write-Ok "$($blocks.Count) sprite definition(s) written."
+
+Save-UpstreamLock -Manifest $manifest -Roots $sourceRoots
+Write-Ok "tools\upstream-lock.json records the upstream versions this sync used."

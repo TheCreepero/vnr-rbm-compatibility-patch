@@ -1,0 +1,58 @@
+{
+    "mods":  {
+                 "vnr":  {
+                             "id":  "2993766165",
+                             "manifest":  "6387550160151166271",
+                             "timeUpdated":  "2026-09-18"
+                         },
+                 "rbm":  {
+                             "id":  "3496134789",
+                             "manifest":  "8479329833854129656",
+                             "timeUpdated":  "2026-06-18"
+                         }
+             },
+    "files":  {
+                  "vnr:gfx/army_icons/naval_equipment_role_icons.dds":  "ffe043df3e49b3536b05322d1af81cb6dda813bae61d28196adf18a1b02341d0",
+                  "vnr:gfx/army_icons/naval_equipment_role_icons_selected.dds":  "53a874acd9f3f15ac38e234311eced12e1e21993f29ae46c57dff675c3e49c0e",
+                  "vnr:gfx/interface/counters/ships_small/onmap_carrier.dds":  "3f6b759a135b2ff78a5d6262c6c1e802e48f3f2eebb1ddaa4dfd489d6dc807bc",
+                  "vnr:gfx/interface/counters/ships_small/onmap_carrier_inverted.dds":  "84730b6b93c81c83c7d14232cbfe82c468ca57630e8b36a32510592dc044a43a",
+                  "rbm:gfx/interface/counters/ships_small/onmap_heavy_cruiser.dds":  "6a1bd4b0648e21b43b4293b882a69d1cbf0d7179069f67acce720a05ce4aec7d",
+                  "rbm:gfx/interface/counters/ships_small/onmap_heavy_cruiser_inverted.dds":  "b881b9f8f64732d089397d004fb5e8b7f608434e1cf8d36edf6515c5add91c63",
+                  "rbm:gfx/interface/counters/ships_small/onmap_light_cruiser.dds":  "5de6d9a641f3d61a97d0082b5d3fa932c268e6c59b0e9587469b04acdffd91b0",
+                  "rbm:gfx/interface/counters/ships_small/onmap_light_cruiser_inverted.dds":  "52478e1c9c53b54171ea9399775a2c60a10a3102b4767d91ef5b9009f1ae2574",
+                  "rbm:gfx/interface/counters/ships_small/onmap_sh_battleship.dds":  "905bf55022c72ee69d6305a754d67e1b128a0cf18ff98ebc9f6d0d2f21b5e71f",
+                  "rbm:gfx/interface/counters/ships_small/onmap_sh_battleship_inverted.dds":  "7aea806865d0b12eb2ec6d9ccbe1547fd9a7fbb84ea7c997103a4e562a21b2ff",
+                  "vnr:gfx/interface/navalcombat/ships/battlecruiser_I.dds":  "bb387a08e7ccf0d1a36e075e7179df358ea715a764cd30cfa9330da7923c49c3",
+                  "vnr:gfx/interface/navalcombat/ships/battlecruiser_II.dds":  "e364944dc61a501cef8c03f085d27a3897ffb70729bacdbf9236e183f29388eb",
+                  "vnr:gfx/interface/navalcombat/ships/battlecruiser_III.dds":  "f7fccb1dd7fc70a6edf776b7a19501e4267f3dc1ea4f562328fd42156d0238ce",
+                  "vnr:gfx/interface/navalcombat/ships/battlecruiser_IV.dds":  "7a588c222b8e2de317b8cae120273583f9711f4cb9d37335eed51cc64a35ab97",
+                  "vnr:gfx/interface/navalcombat/ships/battleship.dds":  "98741a1edc8003df38a6e8eed91f952bf254541febd8f6bed97375dd704f8a36",
+                  "vnr:gfx/interface/navalcombat/ships/battleship_I.dds":  "adec0153aa55b48788528012cce3003123f5782b30b1c7c62df215d0f684358e",
+                  "vnr:gfx/interface/navalcombat/ships/battleship_II.dds":  "b23e85f98efbfca30e1e789e57d54fa5db4d9557700ceb7dbefea4ee39febf8f",
+                  "vnr:gfx/interface/navalcombat/ships/battleship_III.dds":  "0345888bf82a93e9fb527bf9987912775e549c3e0374992eafbc60fce04794dc",
+                  "vnr:gfx/interface/navalcombat/ships/battleship_IV.dds":  "87a29fa159ca8d86f7594b82ef1f65c4a677f8dc228c67bc1d39970e68e553c4",
+                  "vnr:gfx/interface/navalcombat/ships/carrier.dds":  "f423b224c2e638f49e6334e60b8a712535ba16bb4d0cab209d16e12b505340c8",
+                  "vnr:gfx/interface/navalcombat/ships/carrier_I.dds":  "0eed23367ffd1ad6357110c45870dc0b610c35aec33cd6bba8b93d29bba38e32",
+                  "vnr:gfx/interface/navalcombat/ships/carrier_II.dds":  "975a32f3d156fbe11402234a949de6faeab46f9509b54f6959b1797438465acb",
+                  "vnr:gfx/interface/navalcombat/ships/carrier_III.dds":  "d99687e2220ff334888ec0f1bd23c8cbf2463c0162c7f45c7fdf11c23762105c",
+                  "vnr:gfx/interface/navalcombat/ships/carrier_IV.dds":  "8f9fd17306ac7f977a0aed8bdbe2fe04758244adf0c580bf1ff270502a41a0cc",
+                  "vnr:gfx/interface/navalcombat/ships/destroyer.dds":  "243241bca74df94a5f79ca87980e993793ced021150447573951e06b8dc66706",
+                  "vnr:gfx/interface/navalcombat/ships/destroyer_I.dds":  "347e3ea1e510026367e1f311fdf44a650b1d2e250e5a8eab184471e427cd17ba",
+                  "vnr:gfx/interface/navalcombat/ships/destroyer_II.dds":  "f062e97f870d65ff6df76d380da224930ee4e1f723e0b3a4ee8107e4c97bc4e0",
+                  "vnr:gfx/interface/navalcombat/ships/destroyer_III.dds":  "7f489db88efe83fa02f53184b60b8cbef4726b9b96ee6268d8b8b2280be95841",
+                  "vnr:gfx/interface/navalcombat/ships/destroyer_IV.dds":  "c463f1b69f523858ff9cbf571f4708589212516522190ce5e4f4ba505e697229",
+                  "vnr:gfx/interface/navalcombat/ships/heavy_cruiser_I.dds":  "a227fea45156d1f1b2cb6c4d5982bd7ff968afb5519ed682f9e405eef0037fbb",
+                  "vnr:gfx/interface/navalcombat/ships/heavy_cruiser_II.dds":  "92eb3483aa03f21c99a9fd52f847fd9af20e7d0a4455397cffc883c066046442",
+                  "vnr:gfx/interface/navalcombat/ships/heavy_cruiser_III.dds":  "28787c471e3c9724eea735731e5be77247465277c8c14c49fc646bd298ea6e91",
+                  "vnr:gfx/interface/navalcombat/ships/heavy_cruiser_IV.dds":  "cabb3cfef2db7adbb64601a03f7fb6a4f9b4fcc02e10e69ba0afd58577b6534f",
+                  "vnr:gfx/interface/navalcombat/ships/sh_battleship.dds":  "5583c37b100ffcb50e382c581a2ea703a2d3e1cc08dc32671efd84546e9af10b",
+                  "vnr:gfx/interface/navalcombat/ships/sh_battleship_I.dds":  "34b5dcb7bf2ca77f802b7e88949c4eccce49493891c34e626a996c71884181ea",
+                  "vnr:gfx/interface/navalcombat/ships/submarine.dds":  "4679d71813db3dd74d45d87b28bb740bc8d0d8350aaab2efc34d52574a8d55c2",
+                  "vnr:gfx/interface/navalcombat/ships/submarine_I.dds":  "6fa6a9d106e8b340536fc18170d5c1821429427dfe8d573f0df8e99806784668",
+                  "vnr:gfx/interface/navalcombat/ships/submarine_II.dds":  "ccb81713331d724885daeb6f2838108c554337beb8d72eb987efef34f74c7d0c",
+                  "vnr:gfx/interface/navalcombat/ships/submarine_III.dds":  "ece7679933ecaf5c8d0b813aa177f99ceb50b5081d82e8219d5942ba230046c9",
+                  "vnr:gfx/interface/navalcombat/ships/submarine_IV.dds":  "23064b38fa169b0a57b6f8084460d16f912c276bf18d53cad73de2b25a5258de",
+                  "vnr:interface/equipmentdesignerview.gui":  "764eafe708a39aedc09dd4260d294fd05a2582a9b319e472778224ddba878afe",
+                  "vnr:interface/naviesview.gui":  "59f8358d9566bc4da181d06dd8511ae1b942b52ba0fc478f14dee10f429aabde"
+              }
+}

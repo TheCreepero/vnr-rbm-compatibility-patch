@@ -37,7 +37,7 @@ These files are copies from the two mods. `tools/upstream-manifest.json` lists e
 This repository adheres to the standard single-root Hearts of Iron IV mod architecture:
 
 ```
-C:\dev\vnr-rbm-compatibility-patch/
+vnr-rbm-compatibility-patch/
 |-- .git/                           # Git repository root
 |-- descriptor.mod                  # Clausewitz engine descriptor
 |-- thumbnail.png                   # Steam Workshop thumbnail (512x512)
@@ -61,7 +61,7 @@ All lifecycle tasks are managed through `build.ps1`:
 # 1. Deploy mod to local Paradox Interactive Hearts of Iron IV mod folder
 .\build.ps1 -Deploy
 
-# 2. Configure zero-copy DevLink (instant hot-reload for live testing)
+# 2. Configure zero-copy DevLink (the launcher loads this folder itself; restart the game to see a change)
 .\build.ps1 -DevLink
 
 # 3. Validate syntax and bracket balance without deploying

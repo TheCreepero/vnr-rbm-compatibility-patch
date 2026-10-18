@@ -111,3 +111,61 @@ function Get-DdsSize {
         Width  = [BitConverter]::ToInt32($header, 16)
     }
 }
+
+# The installed version of a Workshop mod as Steam records it in appworkshop_394360.acf, next to the
+# workshop content folder: the content manifest id and the day of the update. $null for a mod that is
+# not a Workshop download.
+function Get-UpstreamWorkshopVersion {
+    param(
+        [Parameter(Mandatory)][string]$InstallDir,
+        [Parameter(Mandatory)][string]$Id
+    )
+
+    $acfPath = Join-Path (Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $InstallDir))) "appworkshop_394360.acf"
+    if (-not (Test-Path -LiteralPath $acfPath)) { return $null }
+
+    $block = [regex]::Match([System.IO.File]::ReadAllText($acfPath), '"' + [regex]::Escape($Id) + '"\s*\{([^{}]*)\}')
+    if (-not $block.Success) { return $null }
+    $manifestMatch = [regex]::Match($block.Groups[1].Value, '"manifest"\s*"(\d+)"')
+    if (-not $manifestMatch.Success) { return $null }
+    $timeMatch = [regex]::Match($block.Groups[1].Value, '"timeupdated"\s*"(\d+)"')
+    $updated = ""
+    if ($timeMatch.Success) {
+        $updated = [DateTimeOffset]::FromUnixTimeSeconds([long]$timeMatch.Groups[1].Value).UtcDateTime.ToString('yyyy-MM-dd')
+    }
+    return @{ Manifest = $manifestMatch.Groups[1].Value; TimeUpdated = $updated }
+}
+
+# Records what a sync was made from in tools/upstream-lock.json: each upstream mod's installed Workshop
+# version and the SHA-256 of every file the manifest lists. The Modding Manager's Test-ModUpstream.ps1
+# (and its Get-ModStatus.ps1 dashboard) compares the installed mods against it to report a stale patch.
+function Save-UpstreamLock {
+    param(
+        [Parameter(Mandatory)]$Manifest,
+        [Parameter(Mandatory)][hashtable]$Roots,
+        [string]$Path = (Join-Path $PSScriptRoot "upstream-lock.json")
+    )
+
+    $mods = [ordered]@{}
+    foreach ($key in $Manifest.mods.PSObject.Properties.Name) {
+        $id = [string]$Manifest.mods.$key.id
+        $version = Get-UpstreamWorkshopVersion -InstallDir $Roots[$key] -Id $id
+        $mods[$key] = [ordered]@{
+            id          = $id
+            manifest    = $(if ($version) { [string]$version.Manifest } else { "" })
+            timeUpdated = $(if ($version) { [string]$version.TimeUpdated } else { "" })
+        }
+    }
+
+    $files = [ordered]@{}
+    foreach ($entry in $Manifest.files) {
+        $source = Join-Path $Roots[$entry.source] ($entry.path -replace '/', '\')
+        $hash = "missing"
+        if (Test-Path -LiteralPath $source) {
+            $hash = (Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash.ToLowerInvariant()
+        }
+        $files[$entry.source + ':' + $entry.path] = $hash
+    }
+
+    [System.IO.File]::WriteAllText($Path, ([ordered]@{ mods = $mods; files = $files } | ConvertTo-Json -Depth 5), [System.Text.UTF8Encoding]::new($false))
+}
