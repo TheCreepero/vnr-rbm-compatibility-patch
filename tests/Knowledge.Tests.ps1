@@ -22,14 +22,19 @@ BeforeAll {
 }
 
 Describe 'Central knowledge register' {
-    It 'GEMINI.md sends agents to the central register' {
-        $ruleText = [System.IO.File]::ReadAllText((Join-Path $script:RepoRoot 'GEMINI.md'), [System.Text.Encoding]::UTF8)
+    It 'AGENTS.md sends agents to the central register' {
+        $ruleText = [System.IO.File]::ReadAllText((Join-Path $script:RepoRoot 'AGENTS.md'), [System.Text.Encoding]::UTF8)
         $ruleText | Should -Match '(?m)^##\s+(\d+\.\s+)?Engine Knowledge\s*$'
         $ruleText | Should -Match 'hoi4-modding-knowledge'
     }
 
-    It 'CLAUDE.md exists, so Claude Code reads the project rules' {
-        Test-Path -LiteralPath (Join-Path $script:RepoRoot 'CLAUDE.md') | Should -BeTrue
+    It 'CLAUDE.md and GEMINI.md point to AGENTS.md' {
+        $claudePath = Join-Path $script:RepoRoot 'CLAUDE.md'
+        $geminiPath = Join-Path $script:RepoRoot 'GEMINI.md'
+        Test-Path -LiteralPath $claudePath | Should -BeTrue
+        Test-Path -LiteralPath $geminiPath | Should -BeTrue
+        [System.IO.File]::ReadAllText($claudePath, [System.Text.Encoding]::UTF8) | Should -Match '(?m)^@AGENTS\.md\s*$'
+        [System.IO.File]::ReadAllText($geminiPath, [System.Text.Encoding]::UTF8) | Should -Match '(?m)^@AGENTS\.md\s*$'
     }
 
     It 'has no blocking finding in the knowledge audit' {

@@ -39,7 +39,9 @@ BeforeAll {
         Write-TestFile -Root $fixtureRoot -RelativePath 'common\.gitkeep' -Text ''
         Write-TestFile -Root $fixtureRoot -RelativePath 'localisation\english\fixture_l_english.yml' -Text "l_english:`r`n FIXTURE_KEY:0 `"Text`"`r`n" -Bom
         Write-TestFile -Root $fixtureRoot -RelativePath 'README.md' -Text '# Fixture'
-        Write-TestFile -Root $fixtureRoot -RelativePath 'CLAUDE.md' -Text '@GEMINI.md'
+        Write-TestFile -Root $fixtureRoot -RelativePath 'AGENTS.md' -Text '# Rules'
+        Write-TestFile -Root $fixtureRoot -RelativePath 'CLAUDE.md' -Text '@AGENTS.md'
+        Write-TestFile -Root $fixtureRoot -RelativePath 'GEMINI.md' -Text '@AGENTS.md'
         Write-TestFile -Root $fixtureRoot -RelativePath 'fixture.mod' -Text 'path="C:/dev/fixture"'
         Write-TestFile -Root $fixtureRoot -RelativePath 'docs\notes.md' -Text 'notes'
         Write-TestFile -Root $fixtureRoot -RelativePath 'tools\helper.ps1' -Text 'Write-Host 1'
