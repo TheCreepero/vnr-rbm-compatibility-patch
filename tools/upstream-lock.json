@@ -2,8 +2,8 @@
     "mods":  {
                  "vnr":  {
                              "id":  "2993766165",
-                             "manifest":  "6387550160151166271",
-                             "timeUpdated":  "2026-09-18"
+                             "manifest":  "3885006610018761234",
+                             "timeUpdated":  "2026-10-18"
                          },
                  "rbm":  {
                              "id":  "3496134789",
@@ -53,6 +53,6 @@
                   "vnr:gfx/interface/navalcombat/ships/submarine_III.dds":  "ece7679933ecaf5c8d0b813aa177f99ceb50b5081d82e8219d5942ba230046c9",
                   "vnr:gfx/interface/navalcombat/ships/submarine_IV.dds":  "23064b38fa169b0a57b6f8084460d16f912c276bf18d53cad73de2b25a5258de",
                   "vnr:interface/equipmentdesignerview.gui":  "764eafe708a39aedc09dd4260d294fd05a2582a9b319e472778224ddba878afe",
-                  "vnr:interface/naviesview.gui":  "59f8358d9566bc4da181d06dd8511ae1b942b52ba0fc478f14dee10f429aabde"
+                  "vnr:interface/naviesview.gui":  "d731de1de0183a0f8c0ebd2d50aa06757ea89b1c6f9d257c84b72794c0cb71ae"
               }
 }
