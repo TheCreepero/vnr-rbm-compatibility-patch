@@ -1,0 +1,8 @@
+{
+    "version": 1,
+    "title": "VNR - RBM",
+    "qualifier": "Compatibility Patch",
+    "background": {
+        "gamePath": "integrated_dlc/dlc023_man_the_guns/gfx/loadingscreens/load_mtg_2.dds"
+    }
+}
